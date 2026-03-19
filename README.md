@@ -1,5 +1,7 @@
 # Wykorzystanie metod głębokiego uczenia do analizy i syntezy stylu literackiego
 
+## Mateusz Żydek, Jan Pawelec
+
 ---
 
 ## Kamienie milowe do realizacji projektu
