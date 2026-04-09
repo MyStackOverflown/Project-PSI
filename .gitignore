@@ -2,3 +2,7 @@ data/processed/*
 data/raw/*
 !data/processed/.gitkeep
 !data/raw/.gitkeep
+
+.venv/
+venv/
+env/
