@@ -1,8 +1,31 @@
+# ENV/VENV
+.venv/
+venv/
+env/
+
+# CACHE
+__pycache__/
+*.pyc
+*.pyo
+
+# DATA
 data/processed/*
 data/raw/*
 !data/processed/.gitkeep
 !data/raw/.gitkeep
 
-.venv/
-venv/
-env/
+# MODELS
+models/*
+!models/.gitkeep
+
+# OUTPUTS
+outputs/*
+!outputs/.gitkeep
+
+# IDE
+.idea/
+*.iml
+
+# SYSTEM FILES
+.DS_Store
+Thumbs.db
