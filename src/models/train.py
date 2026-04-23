@@ -1,6 +1,7 @@
-from pathlib import Path
 import os
 import tensorflow as tf
+
+from pathlib import Path
 
 def compile_model(model):
     model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True))
