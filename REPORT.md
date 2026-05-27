@@ -72,7 +72,11 @@ Analiza wygenerowanych przez model próbek dostarczyła kluczowe dowody sukcesu 
 Co najważniejsze, model zaczął poprawnie odtwarzać unikalne, strukturalne fragmenty książek Martina. Poniżej znajduje się wygenerowany fragment:
 
 ```
-"...Robert Baratheon and his sons and serving wenches and the sons of the Lord of Light, before the Dornishmen had been sent to the Wall and the streets and the stormlands they had been sent to the stables and the rest of the Seven Kingdoms. The sons of the sea was still a boy of eight, a squire to Ser Kevan Lannister, > -{SER HOBBER REDWYNE, Lord of the Dreadfort, > -{SER GERALD GOODBROOK}, a boy of twelve, > -ROLAND CRAKEHALL, Lord of the Eyrie, > -his uncle, SER AXELL FLORENT, former sellswords, > -LORD AR..."
+Robert Baratheon and his sons and serving wenches and the sons of the Lord of Light, before the Dornishmen had been sent to the Wall and the streets and the stormlands they had been sent to the stables and the rest of the Seven Kingdoms. The sons of the sea was still a boy of eight, a squire to Ser Kevan Lannister,
+-{SER HOBBER REDWYNE, Lord of the Dreadfort,
+-{SER GERALD GOODBROOK}, a boy of twelve,
+-ROLAND CRAKEHALL, Lord of the Eyrie,
+-his uncle, SER AXELL FLORENT, former sellswords,
 ```
 
 Interpretacja wyniku:
