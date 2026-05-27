@@ -18,20 +18,20 @@ Model został zaimplementowany przy użyciu interfejsu funkcjonalnego Keras. Pip
 
 ```
 Project-PSI/
-├── data/
-│   ├── raw/                 # Surowe pliki tekstowe
-│   └── processed/           # Skonsolidowany i oczyszczony tekst
-├── models/
+|── data/
+│   |── raw/                 # Surowe pliki tekstowe
+│   |── processed/           # Skonsolidowany i oczyszczony tekst
+|── models/
 │   ├── checkpoints/         # Punkty kontrolne zapisywane po każdej epoce
-│   └── final/               # Ostateczny model
-├── notebooks/
+│   |── final/               # Ostateczny model
+|── notebooks/
 │   ├── 01_cleaning.ipynb    # Czyszczenie tekstu
 │   ├── 02_dataset.ipynb     # Tokenizacja i mapowania
 │   ├── 03_model.ipynb       # Definicja i kompilacja architektury
 │   ├── 04_training.ipynb    # Pętla treningowa i wykresy zbieżności
-│   └── 05_evaluation.ipynb  # Inferencja i próbkowanie tekstu
-├── src/                     # Kod źródłowy modułów pomocniczych
-└── README.md                # Dokumentacja projektu
+│   |── 05_evaluation.ipynb  # Inferencja i próbkowanie tekstu
+|── src/                     # Kod źródłowy modułów pomocniczych
+|── README.md                # Dokumentacja projektu
 ```
 
 ---
