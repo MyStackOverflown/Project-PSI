@@ -15,7 +15,7 @@ with open('char2idx.json', 'r') as f:
 idx2char = np.array([char for char, idx in sorted(char2idx.items(), key=lambda item: item[1])])
 
 model_trained = tf.keras.models.load_model('model_martin_50_256_512.keras')
-model_gen = build_model(vocab_size=92, embedding_dim=256, rnn_units=512, batch_size=1)
+model_gen = build_model(vocab_size=len(idx2char), embedding_dim=256, rnn_units=512, batch_size=1)
 model_gen.set_weights(model_trained.get_weights())
 model_gen.build(tf.TensorShape([1, None]))
 
@@ -23,7 +23,6 @@ model_gen.build(tf.TensorShape([1, None]))
 def generateText():
     prompt = request.json.get('prompt', 'Ned')
     result = generate_text(model_gen, prompt, char2idx, idx2char, num_generate=300, temperature=0.7)
-    result =" uuuuu"
     return jsonify({'text': result})
 
 @app.route("/")

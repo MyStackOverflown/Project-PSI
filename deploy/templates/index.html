@@ -3,79 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Syntetyczny pisarz</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png') }}">
+    <title>Syntetyczny Pisarz - GRR Martin</title>
+    <style>
+        body { background-color: #121212; color: #e0e0e0; font-family: 'Georgia', serif; }
+        .card { background-color: #1e1e1e; border: 1px solid #333; }
+        .btn-outline-gold { color: #ffd700; border-color: #ffd700; }
+        .btn-outline-gold:hover { background-color: #ffd700; color: #121212; }
+        #result { white-space: pre-wrap; font-size: 1.1rem; line-height: 1.6; }
+        .text-custom-white { color: #ffffff !important; }
+    </style>
 </head>
-<body class="bg-body-tertiary">
-
-<button id="theme-toggle" class="btn btn-outline-secondary position-fixed top-0 end-0 m-3 z-3 shadow-sm">
-    <span id="theme-icon"></span> <span id="theme-text">Ciemny</span>
-</button>
-
-<div class="container mt-3">
-    <div class="">
-        <h2 class="text-center mb-4">Syntetyczny pisarz</h2>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-10">
+                <div class="card shadow-lg rounded-3">
+                    <div class="card-header border-bottom border-secondary py-3 text-center">
+                        <h1 class="h3 mb-0 text-uppercase tracking-wider" style="color: #ffd700;">Syntetyczny Pisarz</h1>
+                        <small class="text-custom-white">Generator Stylu George'a R.R. Martina</small>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-4">
+                            <h5 for="prompt" class="form-label text-custom-white mb-3">Prompt:</h5>
+                            <input type="text" id="prompt" class="form-control form-control-lg bg-dark text-white border-secondary" value="Winter is coming">
+                        </div>
+                        <div class="d-grid">
+                            <button onclick="generate()" class="btn btn-outline-gold btn-lg py-2 fs-5">
+                                Generuj
+                            </button>
+                        </div>
+                        
+                        <div class="mt-5">
+                            <h5 class="text-custom-white mb-3">Opowieść:</h5>
+                            <div class="border border-secondary rounded p-4 bg-dark position-relative" style="min-height: 150px;">
+                                
+                                <div id="loading" class="d-none position-absolute top-50 start-50 translate-middle text-center">
+                                    <div class="spinner-border text-warning" role="status" style="width: 3rem; height: 3rem;"></div>
+                                    <div class="mt-2 text-custom-white fw-bold">AI pisze...</div>
+                                </div>
+                                
+                                <div id="error-alert" class="alert alert-danger d-none" role="alert"></div>
+                                
+                                <p id="result" class="text-custom-white mb-0"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Generator stylu G.R.R. Martina</h5>
-            <div class="mb-3">
-                <input type="text" id="prompt" class="form-control" value="Winter is coming">
-            </div>
-            <button onclick="generate()" class="btn border shadow-sm">Wygeneruj</button>
-            <div id="result" class="mt-4 p-4 bg-body-tertiary border shadow-sm"></div>
-            </div>
-    </div>
+    <script>
+    function generate() {
+        const promptInput = document.getElementById('prompt').value;
+        const resultParagraph = document.getElementById('result');
+        const loadingDiv = document.getElementById('loading');
+        const errorAlert = document.getElementById('error-alert');
 
-</div>
+        resultParagraph.innerText = "";
+        errorAlert.classList.add('d-none');
+        loadingDiv.classList.remove('d-none');
 
-<script>
-    async function generate() {
-        const prompt = document.getElementById('prompt').value;
-        const res = await fetch('/generate', {
+        fetch('/generate', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({prompt: prompt})
-        });
-        const data = await res.json();
-        document.getElementById('result').innerText = data.text;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
-        const themeText = document.getElementById('theme-text');
-        const htmlElement = document.documentElement; 
-        
-        const savedTheme = localStorage.getItem('app-theme') || 'light';
-        
-        applyTheme(savedTheme);
-
-        themeToggleBtn.addEventListener('click', () => {
-            const currentTheme = htmlElement.getAttribute('data-bs-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            applyTheme(newTheme);
-        });
-
-        function applyTheme(theme) {
-            htmlElement.setAttribute('data-bs-theme', theme);
-            
-            localStorage.setItem('app-theme', theme);
-
-            if (theme === 'dark') {
-                themeText.textContent = 'Jasny';
-                themeToggleBtn.classList.replace('btn-outline-secondary', 'btn-outline-light');
-            } else {
-                themeText.textContent = 'Ciemny';
-                themeToggleBtn.classList.replace('btn-outline-light', 'btn-outline-secondary');
+            body: JSON.stringify({ prompt: promptInput })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Błąd serwera (HTTP " + response.status + "). Spróbuj ponownie.");
             }
-        }
-    });
-</script>
-
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                throw new Error("Błąd modelu AI: " + data.error);
+            }
+            resultParagraph.innerText = data.text;
+        })
+        .catch(error => {
+            console.error("Szczegóły błędu:", error);
+            errorAlert.innerText = error.message || "Wystąpił nieoczekiwany błąd sieciowy.";
+            errorAlert.classList.remove('d-none');
+        })
+        .finally(() => {
+            loadingDiv.classList.add('d-none');
+        });
+    }
+    </script>
 </body>
 </html>
