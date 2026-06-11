@@ -31,7 +31,7 @@
                             <input type="text" id="prompt" class="form-control form-control-lg bg-dark text-white border-secondary" value="Winter is coming">
                         </div>
 
-                        <div class="row mb-4">
+                        <div class="row">
                             <!--<div class="col-md-6 mb-3 mb-md-0">
                                 <label for="temp" class="form-label text-custom-white d-flex justify-content-between">
                                     <span>Temperatura:</span>
@@ -39,11 +39,11 @@
                                 </label>
                                 <input type="range" id="temp" class="form-range" min="0.1" max="1.5" step="0.1" value="0.7" oninput="updateTempVal(this.value)">
                             </div>-->
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3 mb-md-0">
                                 <label for="temp-slider" class="form-label text-custom-white">Temperatura:</label>
                                 <div class="d-flex align-items-center gap-2">
                                     <input type="range" id="temp-slider" class="form-range" min="0.1" max="1.5" step="0.1" value="0.7" oninput="syncTemp('slider')">
-                                    <input type="number" id="temp-input" class="form-control bg-dark text-white border-secondary text-center" style="width: 90px;" min="0" max="1.5" value="0.7" oninput="syncTemp('input')">
+                                    <input type="number" id="temp-input" class="form-control bg-dark text-white border-secondary text-center" style="width: 90px;" min="0.1" max="1.5" step="0.1" value="0.7" onchange="syncTemp('input')">
                                 </div>
                             </div>
                             
@@ -51,20 +51,21 @@
                                 <label for="length-slider" class="form-label text-custom-white">Liczba znaków:</label>
                                 <div class="d-flex align-items-center gap-2">
                                     <input type="range" id="length-slider" class="form-range" min="50" max="1500" step="50" value="300" oninput="syncLength('slider')">
-                                    <input type="number" id="length-input" class="form-control bg-dark text-white border-secondary text-center" style="width: 90px;" min="0" max="1500" value="300" oninput="syncLength('input')">
+                                    <input type="number" id="length-input" class="form-control bg-dark text-white border-secondary text-center" style="width: 90px;" min="50" max="1500" value="300" onchange="syncLength('input')">
                                 </div>
                             </div>
                         </div>
+                        </div>
 
-                        <div class="d-grid">
+                        <div class="d-grid mx-4">
                             <button onclick="generate()" class="btn btn-outline-gold btn-lg py-2 fs-5">
                                 Generuj
                             </button>
                         </div>
                         
-                        <div class="mt-5">
+                        <div class="m-4">
                             <h5 class="text-custom-white mb-3">Opowieść:</h5>
-                            <div class="border border-secondary rounded p-4 bg-dark position-relative" style="min-height: 150px;">
+                            <div class="form-control form-control-lg bg-dark text-white border-secondary p-3 position-relative" style="min-height: 150px;">
                                 
                                 <div id="loading" class="d-none position-absolute top-50 start-50 translate-middle text-center">
                                     <div class="spinner-border text-warning" role="status" style="width: 3rem; height: 3rem;"></div>
@@ -87,19 +88,19 @@
         document.getElementById('temp-val').innerText = val;
     }
 
-    function syncTemp(source) {
+     function syncTemp(source) {
         const slider = document.getElementById('temp-slider');
         const input = document.getElementById('temp-input');
         
         if (source === 'slider') {
             input.value = slider.value;
         } else if (source === 'input') {
-            let val = parseInt(input.value);
+            let val = parseFloat(input.value);
             if (isNaN(val)) val = 0.7;
             if (val < 0.1) val = 0.1;
             if (val > 1.5) val = 1.5;
             slider.value = val;
-            input.value = val;
+            input.value = val; 
         }
     }
 
@@ -121,7 +122,7 @@
 
     function generate() {
         const promptInput = document.getElementById('prompt').value;
-        const tempValue = parseFloat(document.getElementById('temp').value);
+        const tempValue = parseFloat(document.getElementById('temp-input').value);
         const lengthValue = parseInt(document.getElementById('length-input').value);
         
         const resultParagraph = document.getElementById('result');
